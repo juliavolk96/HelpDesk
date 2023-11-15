@@ -11,16 +11,32 @@ export default class TicketView {
     ticketElement.innerHTML = `
     <div class="one-ticket-container">
       <h2 class="ticket-name">${ticket.name}</h2>
-      <p class="hidden">${ticket.description}</p>
-      <p class="status">${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
-      <p class="created">${new Date(ticket.created).toLocaleString()}</p>
+      <div class="description-container">
+        <p class="hidden">${ticket.description}</p>
+      </div>
+      
       <div class="container-btn">
-        <input type="checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
-        <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
-        <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
+        <div class="container-status"> 
+          <p class="status ${ticket.status && ticket.status ? 'completed' : ''}">${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
+          <p class="created">${new Date(ticket.created).toLocaleString()}</p>
+        </div>
+        <div class="container-checkbox-btn">
+          <input type="checkbox" class="custom-checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
+          <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
+          <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
+        </div> 
       </div>
     </div>
     `;
+
+    // Добавление обработчика события для раскрытия/скрытия описания
+    const ticketName = ticketElement.querySelector('.ticket-name');
+    const description = ticketElement.querySelector('.description-container p');
+
+    ticketName.addEventListener('click', () => {
+      description.classList.toggle('hidden');
+    });
+
 
     const checkbox = ticketElement.querySelector(`#ticketStatus_${ticket.id}`);
     checkbox.addEventListener('change', () => {
@@ -28,6 +44,7 @@ export default class TicketView {
 
       const statusParagraph = ticketElement.querySelector('.status');
       statusParagraph.textContent = `${ticket.status ? 'Выполнено' : 'В ожидании'}`;
+      statusParagraph.classList.toggle('completed', ticket.status)
       this.onSubmitEdit(ticket.id, { status: ticket.status });
 
     });
@@ -49,8 +66,10 @@ export default class TicketView {
 
   // Отображения списка тикетов ticketList
   renderTicketList(ticketList) {
+    const sortedTicketList = ticketList.sort((a, b) => b.created - a.created);
+
     const ticketListElement = document.createElement('div');
-    ticketList.forEach((ticket) => {
+    sortedTicketList.forEach((ticket) => {
       const ticketElement = this.renderTicket(ticket);
       ticketListElement.appendChild(ticketElement);
     });

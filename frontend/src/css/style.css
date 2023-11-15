@@ -18,10 +18,28 @@ body {
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-weight: 300;
-  max-width: 50%;
+  width: 50%;
+  min-width: 30%;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
 }
 
 .container-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-status {
+  display: flex;
+  align-items: center;
+}
+
+.container-status p {
+  margin-right: 10px;
+}
+
+.container-checkbox-btn {
   display: flex;
 }
 
@@ -85,6 +103,7 @@ body {
 }
 
 .ticket-name {
+  cursor: pointer;
   font-size: 20px;
 }
 
@@ -139,11 +158,44 @@ form {
   flex-direction: column-reverse;
 }
 
-
 .one-ticket-container input[type="checkbox"] {
   margin-right: 15px;
   margin-left: 10px;
   transform: scale(3); 
-  cursor: pointer
+  cursor: pointer;
+}
+
+
+/*Скрываем подробное описание*/
+.hidden {
+  display: none;
+}
+
+/*Подсказка*/
+.ticket-name {
+  position: relative;
+}
+
+.ticket-name::after {
+  content: "Нажмите, чтобы раскрыть описание";
+  position: absolute;
+  top: 100%;
+  left: 200px;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1;
+  display: none;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.ticket-name:hover::after {
+  display: block;
+}
+
+.completed {
+  color: rgb(7, 230, 96); /* Цвет для выполненных задач */
 }
 
