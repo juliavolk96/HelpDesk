@@ -1,10 +1,7 @@
-import TicketService from "./TicketService";
-
 export default class TicketView {
-  // Конструктор класса, принимающий функции onEdit и onDelete
-  constructor(onEdit, onDelete) {
-    this.onEdit = onEdit; // Функция для обработки редактирования тикета
-    this.onDelete = onDelete; // Функция для обработки удаления тикета
+  constructor(onSubmitDelete, onSubmitEdit) {
+    this.onSubmitDelete = onSubmitDelete;
+    this.onSubmitEdit = onSubmitEdit;
   }
 
   // Метод для отображения одного тикета
@@ -32,6 +29,9 @@ export default class TicketView {
     const deleteBtn = ticketElement.querySelector('.deleteBtn');
     deleteBtn.addEventListener('click', () => this.confirmDelete(ticket));
 
+    // Сохранение ссылки на элемент тикета в объекте тикета
+    ticket.element = ticketElement;
+
     // Возвращение созданного элемента тикета
     return ticketElement;
   }
@@ -58,65 +58,9 @@ export default class TicketView {
   async editTicket(ticket) {
     // Создаем модальное окно для редактирования с использованием предоставленного метода
     const editModal = this.createEditModal(ticket);
-  
-    // Находим кнопку 'confirmEdit' внутри модального окна
-    const confirmEditButton = editModal.querySelector('#confirmEdit');
-  
-    // Добавляем обработчик событий для кнопки 'confirmEdit'
-    confirmEditButton.addEventListener('click', async () => {
-      // Извлекаем отредактированные данные из полей ввода
-      const editedShortDescription = document.getElementById('shortDescription').value;
-      const editedDetailedDescription = document.getElementById('detailedDescription').value;
-  
-      // Проверяем, что оба поля заполнены
-      if (editedShortDescription && editedDetailedDescription) {
-        try {
-          // Выполняем запрос fetch для обновления тикета
-          const response = await fetch(`http://localhost:3000/api/?method=updateById&id=${ticket.id}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              name: editedShortDescription,
-              description: editedDetailedDescription,
-            }),
-          });
-  
-          // Проверяем успешен ли ответ (статус 2xx)
-          if (response.ok) {
-            // Разбираем JSON-ответ
-            const updatedTickets = await response.json();
-  
-            // Отрисовываем обновленный список тикетов
-            this.renderTicketList(updatedTickets);
-  
-            // Удаляем модальное окно редактирования из документа
-            document.body.removeChild(editModal);
-          } else {
-            // Выбрасываем ошибку, если ответ не успешен
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-        } catch (error) {
-          // Логируем и выводим сообщение об ошибке, если произошла ошибка при обновлении
-          console.error('Ошибка при обновлении тикета:', error);
-          alert('Не удалось обновить тикет. Пожалуйста, попробуйте снова.');
-        }
-      } else {
-        // Выводим предупреждение, если хотя бы одно из полей не заполнено
-        alert('Пожалуйста, заполните все поля.');
-      }
-    });
-  
-    // Добавляем модальное окно редактирования в документ
-    document.body.appendChild(editModal);
-  }
-  
-  
-  // Метод для отображения модального окна подтверждения удаления тикета
-  confirmDelete(ticket) {
-    const confirmModal = this.createDeleteModal(ticket);
-    document.body.appendChild(confirmModal);
+
+    // Добавляем модальное окно редактирования внутри элемента тикета
+    ticket.element.appendChild(editModal);
   }
 
   // Метод для создания модального окна редактирования тикета
@@ -141,24 +85,40 @@ export default class TicketView {
     // Добавление обработчиков событий для кнопок "Отмена" и "OK"
     const closeModalButton = modal.querySelector('.close');
     closeModalButton.addEventListener('click', () => {
-      document.body.removeChild(modal);
+      ticket.element.removeChild(modal);
     });
 
     const cancelEditButton = modal.querySelector('#cancelEdit');
     cancelEditButton.addEventListener('click', () => {
-      document.body.removeChild(modal);
+      ticket.element.removeChild(modal);
     });
 
     const confirmEditButton = modal.querySelector('#confirmEdit');
-    confirmEditButton.addEventListener('click', () => {
+    confirmEditButton.addEventListener('click', async () => {
       // Извлечение данных из полей ввода
       const editedShortDescription = document.getElementById('shortDescription').value;
       const editedDetailedDescription = document.getElementById('detailedDescription').value;
 
+      // Проверка, что оба поля заполнены
+      if (editedShortDescription && editedDetailedDescription) {
+        this.onSubmitEdit(ticket.id, { name: editedShortDescription, description: editedDetailedDescription });
+        ticket.element.removeChild(modal);
+      } else {
+        // Вывод предупреждения, если не все поля заполнены
+        alert('Пожалуйста, заполните все поля.');
+      }
     });
-
     // Возвращение созданного модального окна
     return modal;
+  }
+
+  // Метод для отображения модального окна подтверждения удаления тикета
+  confirmDelete(ticket) {
+    // Создание модального окна для подтверждения удаления с использованием предоставленного метода
+    const confirmModal = this.createDeleteModal(ticket);
+
+    // Добавление модального окна подтверждения удаления внутри элемента тикета
+    ticket.element.appendChild(confirmModal);
   }
 
   // Метод для создания модального окна подтверждения удаления тикета
@@ -178,23 +138,21 @@ export default class TicketView {
     // Добавление обработчиков событий для кнопок "Отмена" и "OK"
     const closeModalButton = modal.querySelector('.close');
     closeModalButton.addEventListener('click', () => {
-      document.body.removeChild(modal);
+      ticket.element.removeChild(modal);
     });
 
     const cancelDeleteButton = modal.querySelector('#cancelDelete');
     cancelDeleteButton.addEventListener('click', () => {
-      document.body.removeChild(modal);
+      ticket.element.removeChild(modal);
     });
 
     const confirmDeleteButton = modal.querySelector('#confirmDelete');
     confirmDeleteButton.addEventListener('click', () => {
-      // Вызов функции onDelete, передавая тикет для удаления
-      this.onDelete(ticket);
-      document.body.removeChild(modal);
+      this.onSubmitDelete(ticket.id); // передаем id тикета в метод onSubmit
+      ticket.element.removeChild(modal);
     });
 
     // Возвращение созданного модального окна
     return modal;
   }
-
 }

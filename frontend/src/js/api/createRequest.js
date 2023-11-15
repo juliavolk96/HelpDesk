@@ -20,7 +20,9 @@ const createRequest = async (options = {}) => {
     }
 
     // Возвращаем распарсенный JSON из ответа
-    return response.json();
+    if (method!='DELETE') {
+      return response.json();
+    }
   } catch (error) {
     // В случае ошибки логируем её и повторно выбрасываем
     console.log('Error in createRequest:', error);

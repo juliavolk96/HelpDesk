@@ -105,11 +105,8 @@ async create(data, callback) {
         body: data,
       });
 
-      // Извлекаем данные обновленных тикетов из ответа
-      const updateTickets = await response.json();
-
       // Вызываем колбэк и передаем ему данные обновленных тикетов
-      callback(updateTickets);
+      callback(response);
     } catch (error) {
       console.error('Error updating ticket:', error);
       throw new Error(`Failed to update ticket with ID ${id}.`);
@@ -120,7 +117,10 @@ async create(data, callback) {
   async delete(id, callback) {
     try {
       // Отправляем DELETE-запрос на сервер для удаления тикета по его идентификатору
-      await createRequest({ method: 'DELETE', endpoint: `/api?method=deleteById&id=${id}` });
+      await createRequest({
+        method: 'DELETE',
+        endpoint: `/api?method=deleteById&id=${id}`,
+      });
 
       // Вызываем колбэк после успешного удаления
       callback();

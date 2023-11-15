@@ -21,7 +21,7 @@ export default class HelpDesk {
     this.ticketService = new TicketService();
 
     // Создаем экземпляр TicketView для отображения тикетов
-    this.TicketView = new TicketView();
+    this.TicketView = new TicketView(this.handleFormDelete.bind(this), this.handleFormEdit.bind(this));
 
     // Создаем экземпляр TicketForm и передаем ему функцию handleFormSubmit для обработки события отправки формы
     this.TicketForm = new TicketForm(this.handleFormSubmit.bind(this));
@@ -50,6 +50,18 @@ export default class HelpDesk {
     // Вызываем метод create у TicketService для создания нового тикета, передавая ему данные из формы
     this.ticketService.create(data, () => {
       // После создания тикета обновляем список тикетов
+      this.loadTickets();
+    });
+  }
+
+  handleFormDelete(id) {
+    this.ticketService.delete(id, () => {
+      this.loadTickets();
+    });
+  }
+
+  handleFormEdit(id, data) {
+    this.ticketService.update(id, data, () => {
       this.loadTickets();
     });
   }
