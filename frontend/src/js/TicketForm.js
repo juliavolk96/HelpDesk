@@ -37,9 +37,13 @@ export default class TicketForm {
     // Добавление обработчика события click на кнопку открытия модального окна
     openModalButton.addEventListener('click', () => this.openModal());
 
+    // Добавляем форму к root
+    document.getElementById('root').appendChild(form);
+
     // Возвращение созданной формы
     return form;
   }
+  
 
   // Метод для открытия модального окна
   openModal() {
