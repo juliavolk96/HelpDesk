@@ -28,11 +28,13 @@ body {
 .container-btn {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .container-status {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .container-status p {
@@ -41,6 +43,7 @@ body {
 
 .container-checkbox-btn {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .one-ticket-container button {
