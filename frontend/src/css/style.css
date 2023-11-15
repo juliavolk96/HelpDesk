@@ -1,3 +1,57 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #333;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/*Стили для тикета*/
+.one-ticket-container {
+  border: 1px solid rgb(47, 46, 46);
+  border-radius: 20px;
+  background-color: white;
+  margin: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 300;
+}
+
+.container-btn {
+  display: flex;
+}
+
+.one-ticket-container button {
+  min-width: 40px;
+  padding: 7px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  border: 1px solid rgb(47, 46, 46);
+  background-color: white;
+  align-items: center;
+  text-align: center;
+}
+
+.one-ticket-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* Стили для модального окна редактирования */
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+/*Модальные окна*/
 .modal {
   position: fixed;
   top: 50%;
@@ -5,7 +59,55 @@
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid rgb(47, 46, 46);
+  border-radius: 20px;
 }
 
+.modal-content button {
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid rgb(47, 46, 46);
+  background-color: transparent;
+  border-radius: 3px;
+}
 
+.modal-content textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  margin-top: 8px;
+  min-width: 350px;
+  min-height: 50px;
+}
+
+.modal-content .modal-title,
+.modal-content p {
+  color: #333;
+}
+
+.ticket-name {
+  font-size: 20px;
+}
+
+.modal-title {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 400;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+.modal-content button#confirmDelete {
+  background-color: #d9534f;
+  color: white;
+  border: 1px solid #d9534f;
+}
+
+.content-delete-question {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}

@@ -10,13 +10,15 @@ export default class TicketView {
     const ticketElement = document.createElement('div');
     ticketElement.innerHTML = `
     <div class="one-ticket-container">
-      <h3>${ticket.name}</h3>
-      <p>${ticket.description}</p>
-      <p class="status">Status: ${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
-      <p class="created">Создано: ${new Date(ticket.created).toLocaleString()}</p>
-      <input type="checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
-      <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
-      <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
+      <h2 class="ticket-name">${ticket.name}</h2>
+      <p class="hidden">${ticket.description}</p>
+      <p class="status">${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
+      <p class="created">${new Date(ticket.created).toLocaleString()}</p>
+      <div class="container-btn">
+        <input type="checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
+        <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
+        <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
+      </div>
     </div>
     `;
 
@@ -25,7 +27,7 @@ export default class TicketView {
       ticket.status = !ticket.status;
 
       const statusParagraph = ticketElement.querySelector('.status');
-      statusParagraph.textContent = `Status: ${ticket.status ? 'Выполнено' : 'В ожидании'}`;
+      statusParagraph.textContent = `${ticket.status ? 'Выполнено' : 'В ожидании'}`;
       this.onSubmitEdit(ticket.id, { status: ticket.status });
 
     });
@@ -82,9 +84,9 @@ export default class TicketView {
     modal.innerHTML = `
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Редактирование тикета</h2>
+      <h2 class="modal-title">Редактирование тикета</h2>
       <label for="shortDescription">Краткое описание:</label>
-      <input type="text" id="shortDescription" name="shortDescription" value="${ticket.name}" required>
+      <textarea type="text" id="shortDescription" name="shortDescription" value="${ticket.name}" required></textarea>
       <br>
       <label for="detailedDescription">Подробное описание:</label>
       <textarea id="detailedDescription" name="detailedDescription">${ticket.description}</textarea>
@@ -141,12 +143,14 @@ export default class TicketView {
     const modal = document.createElement('div');
     modal.className = 'modal';
     modal.innerHTML = `
-      <div class="modal-content">
+      <div class="modal-content content-delete">
         <span class="close">&times;</span>
-        <h2>Удаление тикета</h2>
-        <p>Вы действительно хотите удалить тикет?</p>
-        <button type="button" id="cancelDelete">Отмена</button>
-        <button type="button" id="confirmDelete">OK</button>
+        <h2 class="modal-title">Удаление тикета</h2>
+        <p class="content-delete-question">Вы действительно хотите удалить тикет?<br>Это действие необратимо.</p>
+        <div class="delete-buttons">
+          <button type="button" id="cancelDelete">Отмена</button>
+          <button type="button" id="confirmDelete">OK</button>
+        </div>
       </div>
     `;
 
