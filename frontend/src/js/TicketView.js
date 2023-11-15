@@ -9,15 +9,15 @@ export default class TicketView {
   renderTicket(ticket) {
     const ticketElement = document.createElement('div');
     ticketElement.innerHTML = `
-      <div class="one-ticket-container">
-        <h3>${ticket.name}</h3>
-        <p>${ticket.description}</p>
-        <p class="status">Status: ${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
-        <p>Создано: ${new Date(ticket.created).toLocaleString()}</p>
-        <input type="checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
-        <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
-        <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
-      </div>
+    <div class="one-ticket-container">
+      <h3>${ticket.name}</h3>
+      <p>${ticket.description}</p>
+      <p class="status">Status: ${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
+      <p class="created">Создано: ${new Date(ticket.created).toLocaleString()}</p>
+      <input type="checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
+      <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
+      <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
+    </div>
     `;
 
     const checkbox = ticketElement.querySelector(`#ticketStatus_${ticket.id}`);
@@ -80,18 +80,18 @@ export default class TicketView {
     const modal = document.createElement('div');
     modal.className = 'modal';
     modal.innerHTML = `
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Редактирование тикета</h2>
-        <label for="shortDescription">Краткое описание:</label>
-        <input type="text" id="shortDescription" name="shortDescription" value="${ticket.name}" required>
-        <br>
-        <label for="detailedDescription">Подробное описание:</label>
-        <textarea id="detailedDescription" name="detailedDescription">${ticket.description}</textarea>
-        <br>
-        <button type="button" id="cancelEdit">Отмена</button>
-        <button type="button" id="confirmEdit">OK</button>
-      </div>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Редактирование тикета</h2>
+      <label for="shortDescription">Краткое описание:</label>
+      <input type="text" id="shortDescription" name="shortDescription" value="${ticket.name}" required>
+      <br>
+      <label for="detailedDescription">Подробное описание:</label>
+      <textarea id="detailedDescription" name="detailedDescription">${ticket.description}</textarea>
+      <br>
+      <button type="button" id="cancelEdit" class="cancel-edit">Отмена</button> <!-- Add 'cancel-edit' class -->
+      <button type="button" id="confirmEdit" class="confirm-edit">OK</button> <!-- Add 'confirm-edit' class -->
+    </div>
     `;
 
     // Добавление обработчиков событий для кнопок "Отмена" и "OK"
@@ -167,6 +167,7 @@ export default class TicketView {
     confirmDeleteButton.addEventListener('click', () => {
       this.onSubmitDelete(ticket.id); // передаем id тикета в метод onSubmit
       this.editModalOpen = false;
+
       ticket.element.removeChild(modal);
     });
 

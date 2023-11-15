@@ -4,6 +4,7 @@ export default class TicketForm {
     this.onSubmit = onSubmit;
     // Создание формы и сохранение её в свойстве form
     this.form = this.createForm();
+    this.modalOpen = false;
   }
 
   createForm() {
@@ -11,7 +12,7 @@ export default class TicketForm {
 
     // Добавление HTML-разметки в форму
     form.innerHTML = `
-      <button type="button" id="openModal">Добавить тикет</button>
+      <button type="button" class="add-ticket-btn" id="openModal">Добавить тикет</button>
     `;
 
     form.addEventListener('submit', (event) => {
@@ -47,6 +48,11 @@ export default class TicketForm {
 
   // Метод для открытия модального окна
   openModal() {
+    if (this.modalOpen) {
+      return;
+    }
+  
+    this.modalOpen = true;
     // Создание элемента для модального окна
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -61,8 +67,8 @@ export default class TicketForm {
         <label for="detailedDescription">Подробное описание:</label>
         <textarea id="detailedDescription" name="detailedDescription"></textarea>
         <br>
-        <button type="button" id="cancelTicket">Отмена</button>
-        <button type="button" id="submitTicket">OK</button>
+        <button type="button" class="cancelTicket" id="cancelTicket">Отмена</button>
+        <button type="button" class="submitTicket" id="submitTicket">OK</button>
       </div>
     `;
 
@@ -73,6 +79,7 @@ export default class TicketForm {
     // Получение кнопки для отмены тикета
     const cancelTicketButton = modal.querySelector('#cancelTicket');
     cancelTicketButton.addEventListener('click', () => {
+      this.modalOpen = false; 
       document.body.removeChild(modal);
     });
 
@@ -90,6 +97,7 @@ export default class TicketForm {
       } else {
         alert('Пожалуйста, заполните все поля.');
       }
+      this.modalOpen = false; 
     });
   }
 }
