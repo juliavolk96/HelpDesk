@@ -143,14 +143,14 @@ form {
   cursor: pointer;
   border: none;
   border-radius: 8px;
-  background-color: #444546; /* Цвет фона кнопки */
-  color: white; /* Цвет текста кнопки */
+  background-color: #444546; 
+  color: white; 
   font-size: 16px;
-  transition: background-color 0.3s ease; /* Плавное изменение цвета фона при наведении */
+  transition: background-color 0.3s ease; 
 }
 
 .add-ticket-btn:hover {
-  background-color: #272728; /* Цвет фона кнопки при наведении */
+  background-color: #272728; 
 }
 
 .root-container {
@@ -196,6 +196,6 @@ form {
 }
 
 .completed {
-  color: rgb(7, 230, 96); /* Цвет для выполненных задач */
+  color: rgb(7, 230, 96); 
 }
 
