@@ -13,10 +13,9 @@ export default class TicketView {
       <p>Status: ${ticket.status ? 'Выполнено' : 'В ожидании'}</p>
       <p>Создано: ${new Date(ticket.created).toLocaleString()}</p>
       <input type="checkbox" id="ticketStatus_${ticket.id}" ${ticket.status ? 'checked' : ''}>
-      <label for="ticketStatus_${ticket.id}">Готово</label>
       <button class="detailsBtn" data-ticket-id="${ticket.id}">Подробности</button>
-      <button class="editBtn" data-ticket-id="${ticket.id}">Изменить</button>
-      <button class="deleteBtn" data-ticket-id="${ticket.id}">Удалить</button>
+      <button class="editBtn" data-ticket-id="${ticket.id}">✎</button>
+      <button class="deleteBtn" data-ticket-id="${ticket.id}">Х</button>
     `;
 
     // Добавление обработчиков событий для кнопок "Подробности", "Изменить" и "Удалить"

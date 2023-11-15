@@ -52,7 +52,7 @@ export default class TicketForm {
       <div class="modal-content">
         <h2>Добавление тикета</h2>
         <label for="shortDescription">Краткое описание:</label>
-        <input type="text" id="shortDescription" name="shortDescription" required>
+        <textarea type="text" id="shortDescription" name="shortDescription" required></textarea>
         <br>
         <label for="detailedDescription">Подробное описание:</label>
         <textarea id="detailedDescription" name="detailedDescription"></textarea>
