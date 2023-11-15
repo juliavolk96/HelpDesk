@@ -1,17 +1,12 @@
 // Определение класса TicketForm
 export default class TicketForm {
-  // Конструктор класса, принимающий функцию onSubmit
   constructor(onSubmit) {
-    // Сохранение функции onSubmit в свойстве объекта
     this.onSubmit = onSubmit;
-
     // Создание формы и сохранение её в свойстве form
     this.form = this.createForm();
   }
 
-  // Метод для создания формы
   createForm() {
-    // Создание элемента формы
     const form = document.createElement('form');
 
     // Добавление HTML-разметки в форму
@@ -19,9 +14,8 @@ export default class TicketForm {
       <button type="button" id="openModal">Добавить тикет</button>
     `;
 
-    // Добавление обработчика события submit на форму
     form.addEventListener('submit', (event) => {
-      // Предотвращение стандартного поведения формы (перезагрузка страницы)
+      // Предотвращение перезагрузка страницы
       event.preventDefault();
 
       // Создание объекта FormData для получения данных формы
@@ -56,7 +50,6 @@ export default class TicketForm {
     // Добавление HTML-разметки в модальное окно
     modal.innerHTML = `
       <div class="modal-content">
-        <span class="close">&times;</span>
         <h2>Добавление тикета</h2>
         <label for="shortDescription">Краткое описание:</label>
         <input type="text" id="shortDescription" name="shortDescription" required>
@@ -72,28 +65,16 @@ export default class TicketForm {
     // Добавление модального окна в тело документа
     document.body.appendChild(modal);
 
-    // Получение кнопки для закрытия модального окна
-    const closeModalButton = modal.querySelector('.close');
-
-    // Добавление обработчика события click на кнопку закрытия модального окна
-    closeModalButton.addEventListener('click', () => {
-      document.body.removeChild(modal);
-    });
 
     // Получение кнопки для отмены тикета
     const cancelTicketButton = modal.querySelector('#cancelTicket');
-
-    // Добавление обработчика события click на кнопку отмены тикета
     cancelTicketButton.addEventListener('click', () => {
       document.body.removeChild(modal);
     });
 
     // Получение кнопки для подтверждения создания тикета
     const submitTicketButton = modal.querySelector('#submitTicket');
-
-    // Добавление обработчика события click на кнопку подтверждения создания тикета
     submitTicketButton.addEventListener('click', () => {
-      // Получение значений из полей ввода в модальном окне
       const shortDescription = document.getElementById('shortDescription').value;
       const detailedDescription = document.getElementById('detailedDescription').value;
 
@@ -101,11 +82,8 @@ export default class TicketForm {
       if (shortDescription && detailedDescription) {
         // Вызов функции onSubmit, передавая ей данные создаваемого тикета
         this.onSubmit({ name: shortDescription, description: detailedDescription });
-
-        // Удаление модального окна после успешного создания тикета
         document.body.removeChild(modal);
       } else {
-        // Вывод предупреждения, если не все поля заполнены
         alert('Пожалуйста, заполните все поля.');
       }
     });

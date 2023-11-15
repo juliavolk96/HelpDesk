@@ -1,4 +1,3 @@
-// Импортируем классы TicketService, TicketView и TicketForm из соответствующих файлов
 import TicketService from "./TicketService";
 import TicketView from "./TicketView";
 import TicketForm from "./TicketForm";

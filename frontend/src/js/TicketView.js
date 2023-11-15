@@ -4,7 +4,7 @@ export default class TicketView {
     this.onSubmitEdit = onSubmitEdit;
   }
 
-  // Метод для отображения одного тикета
+  // Отображения одного тикета ticket
   renderTicket(ticket) {
     const ticketElement = document.createElement('div');
     ticketElement.innerHTML = `
@@ -20,8 +20,8 @@ export default class TicketView {
     `;
 
     // Добавление обработчиков событий для кнопок "Подробности", "Изменить" и "Удалить"
-    const detailsBtn = ticketElement.querySelector('.detailsBtn');
-    detailsBtn.addEventListener('click', () => this.showDetails(ticket));
+    // const detailsBtn = ticketElement.querySelector('.detailsBtn');
+    // detailsBtn.addEventListener('click', () => this.showDetails(ticket));
 
     const editBtn = ticketElement.querySelector('.editBtn');
     editBtn.addEventListener('click', () => this.editTicket(ticket));
@@ -32,11 +32,10 @@ export default class TicketView {
     // Сохранение ссылки на элемент тикета в объекте тикета
     ticket.element = ticketElement;
 
-    // Возвращение созданного элемента тикета
     return ticketElement;
   }
 
-  // Метод для отображения списка тикетов
+  // Отображения списка тикетов ticketList
   renderTicketList(ticketList) {
     const ticketListElement = document.createElement('div');
     ticketList.forEach((ticket) => {
@@ -50,15 +49,13 @@ export default class TicketView {
   }
 
   // Метод для отображения подробностей тикета (в данном случае, выводит alert)
-  showDetails(ticket) {
-    alert(`Подробное описание: ${ticket.description}`);
-  }
+  // showDetails(ticket) {
+  //   alert(`Подробное описание: ${ticket.description}`);
+  // }
 
-  // Метод для отображения модального окна редактирования тикета
+  // Отображение модального окна редактирования тикета
   async editTicket(ticket) {
-    // Создаем модальное окно для редактирования с использованием предоставленного метода
     const editModal = this.createEditModal(ticket);
-
     // Добавляем модальное окно редактирования внутри элемента тикета
     ticket.element.appendChild(editModal);
   }
@@ -95,7 +92,6 @@ export default class TicketView {
 
     const confirmEditButton = modal.querySelector('#confirmEdit');
     confirmEditButton.addEventListener('click', async () => {
-      // Извлечение данных из полей ввода
       const editedShortDescription = document.getElementById('shortDescription').value;
       const editedDetailedDescription = document.getElementById('detailedDescription').value;
 
@@ -104,7 +100,6 @@ export default class TicketView {
         this.onSubmitEdit(ticket.id, { name: editedShortDescription, description: editedDetailedDescription });
         ticket.element.removeChild(modal);
       } else {
-        // Вывод предупреждения, если не все поля заполнены
         alert('Пожалуйста, заполните все поля.');
       }
     });
@@ -112,16 +107,14 @@ export default class TicketView {
     return modal;
   }
 
-  // Метод для отображения модального окна подтверждения удаления тикета
+  // Отображение модального окна подтверждения удаления тикета
   confirmDelete(ticket) {
-    // Создание модального окна для подтверждения удаления с использованием предоставленного метода
     const confirmModal = this.createDeleteModal(ticket);
-
     // Добавление модального окна подтверждения удаления внутри элемента тикета
     ticket.element.appendChild(confirmModal);
   }
 
-  // Метод для создания модального окна подтверждения удаления тикета
+  // Создание модального окна подтверждения удаления тикета
   createDeleteModal(ticket) {
     const modal = document.createElement('div');
     modal.className = 'modal';

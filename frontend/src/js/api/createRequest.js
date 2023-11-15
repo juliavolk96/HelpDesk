@@ -24,11 +24,9 @@ const createRequest = async (options = {}) => {
       return response.json();
     }
   } catch (error) {
-    // В случае ошибки логируем её и повторно выбрасываем
     console.log('Error in createRequest:', error);
     throw error;
   }
 };
 
-// Экспортируем функцию createRequest для использования в других модулях
 export default createRequest;
